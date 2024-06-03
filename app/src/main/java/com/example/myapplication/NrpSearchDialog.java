@@ -11,6 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class NrpSearchDialog extends DialogFragment {
+    interface SearchDialogListener {
+        void onClickAction();
+    }
+    SearchDialogListener listener;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -20,7 +25,8 @@ public class NrpSearchDialog extends DialogFragment {
                 .setPositiveButton("Search", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        listener.onClickAction();
+                        dismiss();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

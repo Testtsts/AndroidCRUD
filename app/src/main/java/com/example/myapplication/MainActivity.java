@@ -3,20 +3,32 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-    private EditText nrp,nama;
-    private Button simpan,ambildata;
+public class MainActivity extends AppCompatActivity implements NrpSearchDialog.SearchDialogListener {
+
+
+
+
+    private EditText nrp,nama,nrpDialog;
+    private Button simpan,ambildata, hapus, ubah;
     private SQLiteDatabase dbku;
     private SQLiteOpenHelper Opendb;
+
+
+    @Override
+    public void onClickAction(){
+        delete();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +39,12 @@ public class MainActivity extends AppCompatActivity {
         nama= (EditText) findViewById(R.id.nama);
         simpan = (Button) findViewById(R.id.Simpan);
         ambildata = (Button) findViewById(R.id.ambildata);
+        ubah = (Button) findViewById(R.id.update);
+        hapus=(Button) findViewById(R.id.delete);
         simpan.setOnClickListener(operasi);
         ambildata.setOnClickListener(operasi);
+        ubah.setOnClickListener(operasi);
+        hapus.setOnClickListener(operasi);
 
 
 
@@ -50,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
 
     }
+    NrpSearchDialog nrpSearchDialog = new NrpSearchDialog();
 
     View.OnClickListener operasi = new View.OnClickListener() {
         @Override
@@ -57,15 +74,33 @@ public class MainActivity extends AppCompatActivity {
             int viewId = v.getId();
             if (viewId == R.id.Simpan){
                 simpan();
-            } else if (viewId == R.id.ambildata) {
-                ambildata();
             } else if (viewId == R.id.delete) {
-                delete();
-            } else if (viewId == R.id.update) {
+                nrpSearchDialog.show(getSupportFragmentManager(),"NRP_DIALOG");
+            }else if (viewId == R.id.ambildata) {
+                ambildata();
+            }  else if (viewId == R.id.update) {
                 update();
             }
         }
     };
+
+
+
+    DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            //positif -1 negatif -2
+            switch (which) {
+                case -1:
+                    Log.d("test","test1");
+                    break;
+                case -2:
+                    Log.d("test","test2");
+                    break;
+            }
+        }
+    };
+
 
     private void simpan()
     {
