@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements NrpSearchDialog.S
 
 
     @Override
-    public void onClickAction(){
-        delete();
+    public void onClickAction(String nrp){
+        delete(nrp);
     }
 
     @Override
@@ -133,14 +133,15 @@ public class MainActivity extends AppCompatActivity implements NrpSearchDialog.S
 
         dataku.put("nrp",nrp.getText().toString());
         dataku.put("nama",nama.getText().toString());
+
         dbku.update("mhs",dataku,"nrp='"+nrp.getText().toString()+"'",null);
         Toast.makeText(this,"Data Terupdate",Toast.LENGTH_LONG).show();
     }
 
-    private void delete()
+    private void delete(String nrp)
     {
 
-        dbku.delete("mhs","nrp='"+nrp.getText().toString()+"'",null);
+        dbku.delete("mhs","nrp='"+nrp+"'",null);
         Toast.makeText(this,"Data Terhapus",Toast.LENGTH_LONG).show();
     }
 
